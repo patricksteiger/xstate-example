@@ -15,9 +15,16 @@ export type TState = {
   context: Context;
 };
 
+export enum States {
+  ACTIVE = 'active',
+  DRAFT = 'draft',
+  RETIRED = 'retired',
+}
+
 export const machine = createMachine<Context, Event, TState>(
   {
     id: 'instrument',
+    //schema: { events: {} as Event, context: {} as Context },
     initial: 'draft',
     // history: 'deep',
     states: {
@@ -46,7 +53,7 @@ export const machine = createMachine<Context, Event, TState>(
   {
     actions: {
       persistState: (context: Context, event: Event) => {
-        const vec: any[] = context.states;
+        const vec: string[] = context.states;
         if (!event.type || vec.at(-1) === event.type) {
           return;
         }

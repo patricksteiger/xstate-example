@@ -1,5 +1,5 @@
 import { interpret, State } from 'xstate';
-import { Context, Event, machine, TState } from './machine';
+import { Context, Event, machine, States, TState } from './machine';
 import { Typegen0 } from './machine.typegen';
 import { UpdatedContext, UpdatedEvent, updatedMachine } from './updatedMachine';
 

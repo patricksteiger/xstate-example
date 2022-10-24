@@ -1,4 +1,4 @@
-import { assign, AssignAction, createMachine } from 'xstate';
+import { assign, createMachine } from 'xstate';
 import { Typegen0 } from './machine.typegen';
 
 export interface Context {
@@ -9,11 +9,6 @@ export type Event =
   | { type: 'PUBLISH' }
   | { type: 'RETIRE' }
   | { type: 'REDRAFT' };
-
-/* export type States =
-  | { value: 'draft'; context: Context }
-  | { value: 'active'; context: Context }
-  | { value: 'retired'; context: Context }; */
 
 export type TState = Typegen0['matchesStates'];
 

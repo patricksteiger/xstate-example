@@ -1,5 +1,5 @@
 import { interpret, State } from 'xstate';
-import { Context, Event, machine, TState } from './machine';
+import { Context, Event, machine, States, TState } from './machine';
 import {
   UpdatedContext,
   UpdatedEvent,
@@ -26,6 +26,7 @@ const sndService = interpret(machine).start(sndState);
 sndState = sndService.send('REDRAFT');
 
 const arr: TState['value'][] = ['active', 'draft', 'retired'];
+//const arr = [States.ACTIVE, States.DRAFT, States.RETIRED];
 const isMatch = arr.some(sndState.matches);
 if (isMatch) {
   console.log(`State is ${sndState.value} and array is [${arr}]`);
@@ -41,12 +42,7 @@ let thdState = State.create<UpdatedContext, UpdatedEvent>(
 const updatedService = interpret(updatedMachine).start(thdState);
 
 thdState = updatedService.send('RETIRE');
-const updatedArr: UpdatedTState['value'][] = [
-  'active',
-  'draft',
-  'retired',
-  'beta',
-];
+const updatedArr: UpdatedTState['value'][] = ['retired', 'beta'];
 const updatedIsMatch = arr.some(thdState.matches);
 if (updatedIsMatch) {
   console.log(

@@ -52,7 +52,7 @@ export const updatedMachine = createMachine<
   {
     actions: {
       persistState: (context: UpdatedContext, event: UpdatedEvent) => {
-        const vec: any[] = context.states;
+        const vec: string[] = context.states;
         if (!event.type || vec.at(-1) === event.type) {
           return;
         }
