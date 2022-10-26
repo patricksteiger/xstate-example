@@ -1,4 +1,4 @@
-import { createMachine } from 'xstate';
+import { assign, createMachine } from 'xstate';
 
 export interface UpdatedContext {
   states: string[];
@@ -15,6 +15,19 @@ export type UpdatedTState = {
   value: 'beta' | 'draft' | 'active' | 'retired';
   context: UpdatedContext;
 };
+
+const persistState = assign<UpdatedContext, UpdatedEvent>({
+  states: (context, event) => {
+    const vec: string[] = [...context.states];
+    /*if (!event.type || vec.at(-1) === event.type) {
+      console.log(`Warning: nothing was added at event ${event.type}`);
+      return vec;
+    }*/
+    vec.push(event.type);
+    console.log(vec);
+    return vec;
+  },
+});
 
 export const updatedMachine = createMachine<
   UpdatedContext,
@@ -51,14 +64,7 @@ export const updatedMachine = createMachine<
   },
   {
     actions: {
-      persistState: (context: UpdatedContext, event: UpdatedEvent) => {
-        const vec: string[] = context.states;
-        if (!event.type || vec.at(-1) === event.type) {
-          return;
-        }
-        vec.push(event.type);
-        console.log(context.states);
-      },
+      persistState,
     },
   }
 );

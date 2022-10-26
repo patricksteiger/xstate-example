@@ -37,6 +37,9 @@ let thdState = State.create<UpdatedContext, UpdatedEvent>(
   JSON.parse(stateStore)
 );
 
+//const updatedService = interpret(machine).start(thdState);
 const updatedService = interpret(updatedMachine).start(thdState);
 
+thdState = updatedService.send('BETA');
+thdState = updatedService.send('ACTIVATE');
 thdState = updatedService.send('RETIRE');

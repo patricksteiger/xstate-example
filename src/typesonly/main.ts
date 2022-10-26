@@ -41,9 +41,11 @@ let thdState = State.create<UpdatedContext, UpdatedEvent>(
 
 const updatedService = interpret(updatedMachine).start(thdState);
 
+thdState = updatedService.send('BETA');
+thdState = updatedService.send('ACTIVATE');
 thdState = updatedService.send('RETIRE');
 const updatedArr: UpdatedTState['value'][] = ['retired', 'beta'];
-const updatedIsMatch = arr.some(thdState.matches);
+const updatedIsMatch = updatedArr.some(thdState.matches);
 if (updatedIsMatch) {
   console.log(
     `Updated state is ${thdState.value} and array is [${updatedArr}]`

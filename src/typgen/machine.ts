@@ -12,20 +12,13 @@ export type Event =
 
 export type TState = Typegen0['matchesStates'];
 
-interface TSTypes {
-  '@@xstate/typegen': false;
-  eventsCausingActions: {
-    persistState: 'PUBLISH' | 'REDRAFT' | 'RETIRE' | 'xstate.stop';
-  };
-  matchesStates: 'active' | 'draft' | 'retired';
-}
-
 const persistState = assign<Context, Event | { type: 'xstate.stop' }>({
   states: (context, event) => {
     const vec: string[] = [...context.states];
-    if (!event.type || vec.at(-1) === event.type) {
+    /*if (!event.type || vec.at(-1) === event.type) {
+      console.log(`Warning: nothing was added at event ${event.type}`);
       return vec;
-    }
+    }*/
     vec.push(event.type);
     console.log(vec);
     return vec;

@@ -1,4 +1,4 @@
-import { createMachine } from 'xstate';
+import { assign, createMachine } from 'xstate';
 
 export interface Context {
   states: string[];
@@ -20,6 +20,19 @@ export enum States {
   DRAFT = 'draft',
   RETIRED = 'retired',
 }
+
+const persistState = assign<Context, Event>({
+  states: (context, event) => {
+    const vec: string[] = [...context.states];
+    /*if (!event.type || vec.at(-1) === event.type) {
+      console.log(`Warning: nothing was added at event ${event.type}`);
+      return vec;
+    }*/
+    vec.push(event.type);
+    console.log(vec);
+    return vec;
+  },
+});
 
 export const machine = createMachine<Context, Event, TState>(
   {
@@ -52,14 +65,7 @@ export const machine = createMachine<Context, Event, TState>(
   },
   {
     actions: {
-      persistState: (context: Context, event: Event) => {
-        const vec: string[] = context.states;
-        if (!event.type || vec.at(-1) === event.type) {
-          return;
-        }
-        vec.push(event.type);
-        console.log(context.states);
-      },
+      persistState,
     },
   }
 );
